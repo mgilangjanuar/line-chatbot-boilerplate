@@ -1,5 +1,5 @@
-EventCarousel
-=============
+LINE Chatbot Boilerplate
+========================
 
 ## Requirements
 
