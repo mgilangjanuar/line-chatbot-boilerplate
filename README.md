@@ -28,9 +28,31 @@ git pull upstream boilerplate
 
 ## Guide and Example
 
+### Configuration in `index.py`
+
+```python
+connect('poc_chatbot_boilerplate', host='localhost', port=27017, username=None, password=None)
+
+app = Flask(__name__)
+bot_handler = ChatbotHandler(load_clients, redis=redis.StrictRedis(host='localhost', port=6379, db=0))
+
+
+@app.route('/service/chatbot/callback', methods=['POST'])
+def route_service_chatbot_callback():
+    try:
+        bot_handler.handle(request, app.logger)
+    except InvalidSignatureError:
+        abort(400)
+    return 'OK'
+
+
+if __name__ == '__main__':
+    app.run()
+```
+
 ### Create Module
 
-Create a module in `./modules` and create **client object** with methods in it.
+Create a client in `./modules` and create **client object** with methods in it.
 
 **Client Types:**
 
@@ -115,7 +137,7 @@ def action_greeting():
 
 **Notes:**
 
- - If you doesn't like the prefix '/' for command in TextClient or the prefix "action_" in methods, you can change that in `./lib/client.py`.
+ If you doesn't like the prefix '/' for command in TextClient or the prefix "action_" in methods, you can change that in `./lib/client.py`
 
 **Routing Client Methods:**
 
