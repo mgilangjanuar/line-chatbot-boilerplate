@@ -45,8 +45,8 @@ client = StandardClient(__name__)
 @client.on_command(sources=['user'])    # only trigger from user, default: all
 def action_ping():                      # name of the method must have "action_" as prefix
     """
-    Always reply /pong whatever user type, StandardClient only have
-    one on_command or on_state decorator method
+    Always reply /pong whatever user type, StandardClient only
+    have one on_command decorator method
     """
     client.bot.reply_message(
         client.event.reply_token,
