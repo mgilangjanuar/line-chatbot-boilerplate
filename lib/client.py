@@ -30,18 +30,18 @@ class BaseClient(metaclass=abc.ABCMeta):
             if re.compile("^{}([a-zA-Z0-9\_])*$".format(ACTION_PREFIX)).match(name):
                 action()
 
-    def before_start(self, bot, event):
+    def before_start(self, bot, event, options={}):
         self._load()
         self.bot = bot
         self.event = event
-        self.state = RedisCache(event)
+        self.state = RedisCache(event, redis=options['__redis__'])
 
     @abc.abstractmethod
     def run_from_command(self, options={}):
         return False
 
     def run(self, bot, event, options={}):
-        self.before_start(bot, event)
+        self.before_start(bot, event, options)
         if (not self.run_from_state()):
             return self.run_from_command(options)
         return True

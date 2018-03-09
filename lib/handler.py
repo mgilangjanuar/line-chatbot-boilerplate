@@ -21,10 +21,10 @@ load_dotenv(find_dotenv())
 
 class ChatbotHandler():
 
-    def __init__(self, load_clients):
+    def __init__(self, load_clients, redis=None):
         self.handler = WebhookHandler(os.environ.get('CHANNEL_SECRET'))
         self.bot = LineBotApi(os.environ.get('CHANNEL_ACCESS_TOKEN'))
-        load_clients(ClientHandler(self.handler, self.bot)).start()
+        load_clients(ClientHandler(self.handler, self.bot, redis)).start()
 
     def handle(self, request, logger=None):
         body = request.get_data(as_text=True)
@@ -35,13 +35,15 @@ class ChatbotHandler():
 
 class ClientHandler():
 
-    def __init__(self, handler, bot):
+    def __init__(self, handler, bot, redis=None):
         self.handler = handler
         self.bot = bot
+        self.redis = redis
         self.entities = {}
         self.options = {}
 
     def add(self, client, events, options={}):
+        options['__redis__'] = self.redis
         self.options[client] = options
         for entity in events:
             if (entity.message):

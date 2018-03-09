@@ -15,11 +15,12 @@ LINE Chatbot Boilerplate
 ```
 git add upstream https://github.com/mgilangjanuar/line-chatbot-boilerplate.git
 ```
- - Always check and pull from upstream
+ - Always check and pull from upstream in the other branch
 ```
-git pull upstream <YOUR_BRANCH>
+git checkout boilerplate
+git pull upstream boilerplate
 ```
- - Work only in `index.py`, `register.py`, and `./modules` directory
+ - Work only in `index.py`, `register.py`, `model.py`, and `./modules` directory
 
 ## Architecture Flow
 
@@ -173,7 +174,8 @@ def action_echo_input():
     print(client.state.get_data())
     message = client.event.message.text
     if (message == '/end'):
-        client.state.delete()
+        client.state.delete_state()
+        client.state.delete_data()
     else:
         client.bot.reply_message(
             client.event.reply_token,
