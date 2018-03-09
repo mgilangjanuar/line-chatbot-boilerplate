@@ -22,6 +22,24 @@ git pull upstream boilerplate
 ```
  - Work only in `index.py`, `register.py`, `model.py`, and `./modules` directory
 
+## How to Run
+
+ - Create and activate a virtual environment
+```
+python3 -m venv env
+source env/bin/activate
+```
+ - Install requirements
+```
+pip3 install -r requirements.txt
+```
+ - Run Flask
+```
+export FLASK_APP=index.py
+export FLASK_DEBUG=1
+flask run
+```
+
 ## Architecture Flow
 
 ![](chatbot_architecture.png?raw=true)
@@ -31,23 +49,22 @@ git pull upstream boilerplate
 ### Configuration in `index.py`
 
 ```python
+from mongoengine import connect
+from lib import ChatbotHandler
+import redis
+
+...
+
+# create connection to MongoDB
 connect('poc_chatbot_boilerplate', host='localhost', port=27017, username=None, password=None)
 
-app = Flask(__name__)
-bot_handler = ChatbotHandler(load_clients, redis=redis.StrictRedis(host='localhost', port=6379, db=0))
+# connect to Redis server
+my_redis = redis.StrictRedis(host='localhost', port=6379, db=0)
 
+# define bot handler
+bot_handler = ChatbotHandler(load_clients, redis=my_redis)
 
-@app.route('/service/chatbot/callback', methods=['POST'])
-def route_service_chatbot_callback():
-    try:
-        bot_handler.handle(request, app.logger)
-    except InvalidSignatureError:
-        abort(400)
-    return 'OK'
-
-
-if __name__ == '__main__':
-    app.run()
+...
 ```
 
 ### Create Module
