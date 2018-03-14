@@ -42,7 +42,7 @@ module.exports = class extends Generator {
       {
         type    : 'input',
         name    : 'interpreter.python',
-        message : '\nCommand for python?',
+        message : 'Command for python?',
         default : 'python3'
       },
       {
