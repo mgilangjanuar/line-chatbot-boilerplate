@@ -105,7 +105,9 @@ client = TextClient(__name__)
 
 @client.on_command('ping', sources=['user'])
 def action_ping():
-    """Always reply "/pong" when user type "/ping"
+    """
+    Always reply "/pong" when user type "/ping", TextClient
+    only can be registered for TextMessage in register.py
     """
     client.bot.reply_message(
         client.event.reply_token,

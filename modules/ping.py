@@ -1,12 +1,12 @@
 from linebot.models import TextSendMessage
-from lib import TextClient
+from lib import StandardClient
 
 
-client = TextClient(__name__)
+client = StandardClient(__name__)
 
-@client.on_command('ping', sources=['user'])
+@client.on_command(sources=['user'])
 def action_ping():
-    """Always reply "/pong" when user type "/ping"
+    """Always reply "/pong" whatever user type
     """
     client.bot.reply_message(
         client.event.reply_token,

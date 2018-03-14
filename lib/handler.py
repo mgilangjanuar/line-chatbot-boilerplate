@@ -66,7 +66,7 @@ class ClientHandler():
                     if (isinstance(client, StandardClient) or isinstance(client, TextClient)):
                         execute = client.run(self.bot, event, self.options[client])
 
-                if (not execute):
+                if (not execute and 'WIT_TOKEN' in os.environ):
                     wit_response = Wit(os.environ.get('WIT_TOKEN')).message(event.message.text)
                     for client in self.entities[MessageEvent][TextMessage]:
                         if (isinstance(client, SimpleWitClient) or isinstance(client, AdvancedWitClient)):
