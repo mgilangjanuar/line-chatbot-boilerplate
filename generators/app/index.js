@@ -180,7 +180,7 @@ module.exports = class extends Generator {
   }
 
   _setup_git(git, callback) {
-    this.log.create('.git')
+    this.log.create(`${this.projectName}/.git`)
     return exec(`rm -rf ${this.projectName}/.git; git init ${this.projectName}`, (err, stdout, stderr) => {
       if (!err && git.useRepository) {
         exec(`git --git-dir=${this.projectName}/.git remote add origin ${git.repository}`, callback)

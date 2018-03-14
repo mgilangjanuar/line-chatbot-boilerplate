@@ -9,9 +9,7 @@ from register import load_clients
 from lib import ChatbotHandler
 <%= importMongoengine %>
 
-
 <%= createMongoConnection %>
-
 my_redis    = <%= redisConfiguration %>
 bot_handler = ChatbotHandler(load_clients, redis=my_redis)
 app         = Flask(__name__)
