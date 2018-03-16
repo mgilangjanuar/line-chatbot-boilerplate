@@ -133,6 +133,12 @@ module.exports = class extends Generator {
         message : 'MongoDB password?',
         default : null
       },
+      {
+        type    : 'list',
+        name    : 'useTemplate',
+        message : 'Would you like see the module examples?',
+        choices : [ 'Yup', 'Nope', '¯\\_(ツ)_/¯' ]
+      }
     ])
     .then((answers) => {
       this.projectName = answers.name.replace(/ /g, "-")
@@ -143,11 +149,16 @@ module.exports = class extends Generator {
             if (!err) {
               this._setup_index(answers.redis, answers.db, answers.route, (err, stdout, stderr) => {
                 if (!err) {
-                  this._setup_python(answers.interpreter, (err, stdout, stderr) => {
+                  this._setup_modules(answers.useTemplate, (err, stdout, stderr) => {
                     if (!err) {
-                      this.log.info(`Your project has served in ${this.projectName} directory`)
-                      this.log.info(`Run cd ${this.projectName}; source env/bin/activate;`)
-                      this.log.info('Happy coding! :)')
+                      this._setup_python(answers.interpreter, (err, stdout, stderr) => {
+                        if (!err) {
+                          this.log.create('a coffee ☕')
+                          this._finish()
+                        } else {
+                          this.log.error(err)
+                        }
+                      })
                     } else {
                       this.log.error(err)
                     }
@@ -219,8 +230,29 @@ module.exports = class extends Generator {
     })
   }
 
+  _setup_modules(useTemplate, callback) {
+    if (useTemplate == 'Nope') {
+      return exec(`rm -rf ${this.projectName}/register.py ${this.projectName}/modules/log.py ${this.projectName}/modules/ping.py`, (err, stdout, stderr) => {
+        if (!err) {
+          this.fs.copyTpl(
+            this.templatePath('register.tpl.py'),
+            this.destinationPath(`${this.projectName}/register.py`)
+          )
+          callback(err, stdout, stderr)
+        }
+      })
+    } else {
+      callback(false, null, null)
+    }
+  }
+
   _setup_python(interpreter, callback) {
-    this.log.create('a coffee')
     return exec(`${interpreter.python} -m venv ${this.projectName}/env; ./${this.projectName}/env/bin/${interpreter.pip} install -r ${this.projectName}/requirements.txt`, callback)
+  }
+
+  _finish() {
+    this.log.info(`Your project has served in ${this.projectName} directory`)
+    this.log.info(`Run cd ${this.projectName}; source env/bin/activate;`)
+    this.log.info('Happy coding! :)')
   }
 }
