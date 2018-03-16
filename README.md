@@ -9,35 +9,24 @@ LINE Chatbot Boilerplate
  - LINE@ Messaging API
  - Wit.ai (optional)
 
-## How to Work
+## How to Install (with Yeoman)
 
- - Add this repository to your upstream remote
-```
-git add upstream https://github.com/mgilangjanuar/line-chatbot-boilerplate.git
-```
- - Always check and pull from upstream in the other branch
-```
-git checkout boilerplate
-git pull upstream boilerplate
-```
- - Work only in `index.py`, `register.py`, `model.py`, and `./modules` directory
+ - Install Yeoman
 
-## How to Run
+```
+npm install -g yo
+```
 
- - Create and activate a virtual environment
+ - Install generator-line-chatbot-boilerplate
+
 ```
-python3 -m venv env
-source env/bin/activate
+npm install -g generator-line-chatbot-boilerplate
 ```
- - Install requirements
+
+ - Run line-chatbot-boilerplate generator with Yeoman
+
 ```
-pip3 install -r requirements.txt
-```
- - Run Flask
-```
-export FLASK_APP=index.py
-export FLASK_DEBUG=1
-flask run
+yo line-chatbot-boilerplate
 ```
 
 ## Architecture Flow
