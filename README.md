@@ -232,6 +232,6 @@ def load_clients(client_handler):
 ```
 
 ## References
- - [LINE@ Messaging API References](https://developers.line.me/en/docs/messaging-api/reference/)
+ - [LINE@ Messaging API References](https://developers.line.biz/en/reference/messaging-api/)
  - [LINE SDK for Python](https://github.com/line/line-bot-sdk-python)
  - [MongoEngine API Reference](http://docs.mongoengine.org/apireference.html)
