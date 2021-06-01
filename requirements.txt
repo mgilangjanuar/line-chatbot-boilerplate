@@ -17,7 +17,7 @@ python-dotenv==0.7.1
 redis==2.10.6
 requests==2.18.4
 six==1.11.0
-urllib3==1.22
+urllib3==1.26.5
 wcwidth==0.1.7
 Werkzeug==0.12.2
 wit==5.0.0
